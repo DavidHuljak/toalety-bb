@@ -1,8 +1,15 @@
 import QRCode from "react-qr-code";
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
-  const date = new Date();
+  const now = new Date();
+
+  const pragueDateString = now.toLocaleString("en-US", {
+    timeZone: "Europe/Prague",
+  });
+  const date = new Date(pragueDateString);
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
