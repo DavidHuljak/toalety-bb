@@ -1,10 +1,30 @@
-import QRCode from "react-qr-code";
-import styles from "./page.module.css";
+"use client";
 
-export const dynamic = "force-dynamic";
+import QRCode from "react-qr-code";
+import { useState, useEffect } from "react";
 
 export default function Home() {
-  const now = new Date();
+  const [now, setNow] = useState<Date | null>(null);
+  const [showLongFormat, setShowLongFormat] = useState(false);
+
+  useEffect(() => {
+    setNow(new Date());
+
+    const timeInterval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    const toggleInterval = setInterval(() => {
+      setShowLongFormat((prev) => !prev);
+    }, 3000);
+
+    return () => {
+      clearInterval(timeInterval);
+      clearInterval(toggleInterval);
+    };
+  }, []);
+
+  if (!now) return null;
 
   const pragueDateString = now.toLocaleString("en-US", {
     timeZone: "Europe/Prague",
@@ -14,44 +34,54 @@ export default function Home() {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
 
-  const qrCodeValue = year + month + day;
-  const textCodeValue = day + month;
+  let qrCodeValue;
+  let textLabel;
+
+  if (showLongFormat) {
+    qrCodeValue = year + month + day + hours + minutes;
+    textLabel = "Dlouhý kód - " + day + month + hours + minutes;
+  } else {
+    qrCodeValue = year + month + day;
+    textLabel = "Krátký kód - " + day + month;
+  }
 
   return (
-    <main className={styles.mainContainer}>
-      <div className={styles.contentWrapper}>
-        <div className={styles.headerBox}>
-          <h1 className={styles.headerText}>TOALETY BB</h1>
+    <main className="mainContainer">
+      <div className="contentWrapper">
+        <div className="headerBox">
+          <h1 className="headerText">TOALETY BB</h1>
         </div>
 
-        <p className={styles.introText}>
+        <p className="introText">
           ODEMKNĚTE SI
           <br />
           TOALETY!
         </p>
 
-        <div className={styles.qrSection}>
-          <div className={styles.qrWrapper}>
+        <div className="qrSection">
+          <div className="qrWrapper">
             <QRCode
               value={qrCodeValue}
               size={180}
               style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              viewBox={`0 0 256 256`}
+              viewBox="0 0 256 256"
               fgColor="#222222"
               bgColor="#ffffff"
             />
           </div>
-          <p className={styles.qrText}>Dnešní kód - {textCodeValue}</p>
+          <p className="qrText">{textLabel}</p>
         </div>
       </div>
 
-      <footer className={styles.footer}>
+      <footer className="footer">
         <a
           href="https://david.huljak.cz"
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.footerLink}
+          className="footerLink"
         >
           Made by Dávid Huljak
         </a>
