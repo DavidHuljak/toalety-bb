@@ -105,6 +105,32 @@ body {
   opacity: 0.9;
 }
 
+.toggleButton {
+  margin-top: 1.5rem;
+  background-color: var(--bb-white);
+  color: var(--bb-dark);
+  padding: 0.8rem 1.5rem;
+  border: none;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggleButton:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toggleButton:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .footer {
   padding-top: 1rem;
   padding-bottom: 0.5rem;

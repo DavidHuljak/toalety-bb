@@ -14,13 +14,8 @@ export default function Home() {
       setNow(new Date());
     }, 1000);
 
-    const toggleInterval = setInterval(() => {
-      setShowLongFormat((prev) => !prev);
-    }, 3000);
-
     return () => {
       clearInterval(timeInterval);
-      clearInterval(toggleInterval);
     };
   }, []);
 
@@ -73,6 +68,13 @@ export default function Home() {
             />
           </div>
           <p className="qrText">{textLabel}</p>
+
+          <button
+            className="toggleButton"
+            onClick={() => setShowLongFormat(!showLongFormat)}
+          >
+            {showLongFormat ? "Zobrazit krátký kód" : "Zobrazit dlouhý kód"}
+          </button>
         </div>
       </div>
 
